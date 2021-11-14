@@ -7,8 +7,14 @@ int buttonValue = 0;
 int randomInt = 0;
 
 void setup() {
-  // Uncomment to see the debug lines on PC console
+  // Uncomment the line below to see the debug lines on a PC console
   Serial.begin(9600);
+
+  // if analog input pin 0 is unconnected, random analog
+  // noise will cause the call to randomSeed() to generate
+  // different seed numbers each time the sketch runs.
+  // randomSeed() will then shuffle the random function.
+  randomSeed(analogRead(0));
   
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
@@ -31,11 +37,7 @@ void loop() {
     delay(1000);
 
     // Control the LED switch (out of 100)
-    if (randomInt > 40){
-      // Stay on for 3 seconds
-      digitalWrite(ledPin, HIGH);
-      delay(3000);
-    } else {
+    if (randomInt < 60){
       // Blink 5 times
       for (int i=0; i<5; i++){
         digitalWrite(ledPin, HIGH);
@@ -43,6 +45,10 @@ void loop() {
         digitalWrite(ledPin, LOW);
         delay(500);
       }
+    } else {
+      // Stay on for 3 seconds
+      digitalWrite(ledPin, HIGH);
+      delay(3000);
     }
 
   } else {
